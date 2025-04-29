@@ -39,5 +39,5 @@ docs.rs documentation links for rendered markdown (ex, on GitHub)
 These are overridden when include_str!(..)'d in lib.rs
 -->
 <!-- ON_RELEASE: the below link(s) should be updated, and this comment removed -->
-<!-- TODO: update crate-name -->
+<!-- TODO: update crate-name, or remove the item entirely if unused -->
 [`ExampleItem`]: https://docs.rs/crate-name/__CRATE_VERSION_HERE__/crate-name/struct.ExampleItem.html
