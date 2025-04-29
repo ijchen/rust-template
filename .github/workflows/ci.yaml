@@ -48,16 +48,16 @@ jobs:
         run: ./ci.sh build
 
   # TODO: remove unless crate is no_std
-  build_nostd:
-    name: Build (nostd)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: thumbv6m-none-eabi
-      - name: Build (nostd)
-        run: ./ci.sh build_nostd
+  # build_nostd:
+  #   name: Build (nostd)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: dtolnay/rust-toolchain@stable
+  #       with:
+  #         targets: thumbv6m-none-eabi
+  #     - name: Build (nostd)
+  #       run: ./ci.sh build_nostd
 
   run_tests_stable:
     name: Tests (stable)
