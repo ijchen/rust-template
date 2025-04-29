@@ -77,10 +77,10 @@ build() {
 }
 
 # TODO: remove unless crate is no_std
-build_nostd() {
-    print_header 'Building on no_std target...'
-    RUSTFLAGS='-D warnings' cargo +stable build --target thumbv6m-none-eabi
-}
+# build_nostd() {
+#     print_header 'Building on no_std target...'
+#     RUSTFLAGS='-D warnings' cargo +stable build --target thumbv6m-none-eabi
+# }
 
 run_tests_stable() {
     print_header 'Running tests (stable compiler)...'
@@ -121,7 +121,7 @@ all_checks() {
     check_fmt
     check_docs
     build
-    build_nostd
+    # build_nostd
     lint
     run_tests_stable
     run_tests_beta
@@ -139,7 +139,7 @@ case "$arg_stage" in
     "check_docs")               check_docs               ;;
     "lint")                     lint                     ;;
     "build")                    build                    ;;
-    "build_nostd")              build_nostd              ;;
+    # "build_nostd")              build_nostd              ;;
     "run_tests_stable")         run_tests_stable         ;;
     "run_tests_beta")           run_tests_beta           ;;
     "run_tests_msrv")           run_tests_msrv           ;;
@@ -148,7 +148,18 @@ case "$arg_stage" in
     *)
         echo "Unknown stage: $arg_stage"
         # TODO: update list if some steps were removed
-        echo "Available stages: all (default), check_fmt, check_docs, lint, build, build_nostd, run_tests_stable, run_tests_beta, run_tests_msrv, run_tests_leak_sanitizer, run_tests_miri"
+        echo 'Available stages:'
+        echo '    all (default)'
+        echo '    check_fmt'
+        echo '    check_docs'
+        echo '    lint'
+        echo '    build'
+        # echo '    build_nostd'
+        echo '    run_tests_stable'
+        echo '    run_tests_beta'
+        echo '    run_tests_msrv'
+        echo '    run_tests_leak_sanitizer'
+        echo '    run_tests_miri'
         exit 1
         ;;
 esac
