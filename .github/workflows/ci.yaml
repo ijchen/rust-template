@@ -15,7 +15,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt
-      - run: py scripts/ci.py check_fmt
+      - run: python3 scripts/ci.py check_fmt
 
   check_docs:
     name: Cargo docs
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
       - uses: dtolnay/rust-toolchain@nightly
-      - run: py scripts/ci.py check_docs
+      - run: python3 scripts/ci.py check_docs
 
   lint:
     name: Lint (clippy)
@@ -34,7 +34,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy
-      - run: py scripts/ci.py lint
+      - run: python3 scripts/ci.py lint
 
   build:
     name: Build
@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
-      - run: py scripts/ci.py build
+      - run: python3 scripts/ci.py build
 
   # TODO: remove unless crate is no_std
   # build_nostd:
@@ -53,7 +53,7 @@ jobs:
   #     - uses: dtolnay/rust-toolchain@stable
   #       with:
   #         targets: thumbv6m-none-eabi
-  #     - run: py scripts/ci.py build_nostd
+  #     - run: python3 scripts/ci.py build_nostd
 
   run_tests_stable:
     name: Tests (stable)
@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
-      - run: py scripts/ci.py run_tests_stable
+      - run: python3 scripts/ci.py run_tests_stable
 
   run_tests_beta:
     name: Tests (beta)
@@ -69,7 +69,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@beta
-      - run: py scripts/ci.py run_tests_beta
+      - run: python3 scripts/ci.py run_tests_beta
 
   run_tests_msrv:
     name: Tests (MSRV)
@@ -77,16 +77,15 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@1.85.0
-      - run: py scripts/ci.py run_tests_msrv
+      - run: python3 scripts/ci.py run_tests_msrv
 
-  # TODO: port script to something cross-platform, then uncomment
-  # run_tests_windows:
-  #   name: Tests (Windows)
-  #   runs-on: windows-latest
-  #   steps:
-  #     - uses: actions/checkout@v5
-  #     - uses: dtolnay/rust-toolchain@stable
-  #     - run: py scripts/ci.py run_tests_stable
+  run_tests_windows:
+    name: Tests (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python3 scripts/ci.py run_tests_stable
 
   run_tests_leak_sanitizer:
     name: Tests (leak sanitizer)
@@ -94,7 +93,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@nightly
-      - run: py scripts/ci.py run_tests_leak_sanitizer
+      - run: python3 scripts/ci.py run_tests_leak_sanitizer
 
   # TODO: remove if unsafe_code is forbidden
   run_tests_miri:
@@ -105,4 +104,4 @@ jobs:
       - uses: dtolnay/rust-toolchain@nightly
         with:
           components: miri
-      - run: py scripts/ci.py run_tests_miri
+      - run: python3 scripts/ci.py run_tests_miri
