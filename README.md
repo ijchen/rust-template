@@ -2,7 +2,7 @@
 
 <!-- Badges -->
 <!-- TODO: update URLs -->
-[![GitHub](https://img.shields.io/badge/Source-ijchen/crate-name-FFD639?labelColor=555555&logo=github)](https://github.com/ijchen/crate-name)
+[![GitHub](https://img.shields.io/badge/Source-ijchen/crate--name-FFD639?labelColor=555555&logo=github)](https://github.com/ijchen/crate-name)
 [![crates.io](https://img.shields.io/crates/v/crate-name?logo=rust)](https://crates.io/crates/crate-name)
 [![docs.rs](https://img.shields.io/docsrs/crate-name?logo=docs.rs)](https://docs.rs/crate-name)
 [![License](https://img.shields.io/crates/l/crate-name)](#)

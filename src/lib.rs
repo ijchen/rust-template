@@ -6,3 +6,9 @@
 //! [`ExampleItem`]: ExampleItem
 // TODO: update ExampleItem, or remove the item entirely if unused
 #![cfg_attr(any(doc, test), doc = include_str!("../README.md"))]
+
+/// An example item so that documentation checks pass.
+//
+// TODO: remove this
+#[cfg(doc)]
+pub struct ExampleItem;

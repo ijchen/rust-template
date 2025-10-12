@@ -30,12 +30,33 @@ publish = false # ON_RELEASE: Remove publish = false
 [dependencies]
 # No dependencies
 
+[dev-dependencies]
+# No dev dependencies
+
+# # # # # # # # # # # # # # # # # # # #
+#                                     #
+#              PROFILES               #
+#                                     #
+# # # # # # # # # # # # # # # # # # # #
+
+[profile.release]
+lto = "thin"
+
+[profile.test]
+opt-level = 3 # Enable optimizations
+
+[profile.profiling]
+inherits = "release"
+debug = true # Include full debug information
+
 # # # # # # # # # # # # # # # # # # # #
 #                                     #
 #                LINTS                #
 #                                     #
 # # # # # # # # # # # # # # # # # # # #
 
+# NOTE: This lint table was last updated during Rust version 1.X.Y
+# TODO(ijchen): go through all Rust lints to the current version and update here
 [lints.rust]
 
 # "deprecated_safe" lint group
@@ -49,6 +70,7 @@ keyword_idents = { level = "warn", priority = -1 }
 
 # Cherry-picked lint overrides
 unsafe_code = "forbid" # do not permit unsafe code
+unsafe_op_in_unsafe_fn = "forbid" # enforce all unsafe operations have a SAFETY comment
 unstable_features = "forbid" # do not permit nightly-only features
 elided_lifetimes_in_paths = "warn" # elided lifetimes are unclear
 missing_debug_implementations = "warn" # all public types should impl Debug
@@ -62,6 +84,8 @@ unused_qualifications = "warn" # overly-qualified paths decrease readability
 
 
 
+# NOTE: This lint table was last updated during Rust version 1.X.Y
+# TODO(ijchen): go through all Rust lints to the current version and update here
 [lints.clippy]
 
 # "pedantic" lint group
@@ -72,8 +96,8 @@ must_use_candidate = "allow" # too many false positives
 cargo = { level = "warn", priority = -1 }
 
 # Cherry-picked lint overrides
-multiple_unsafe_ops_per_block = "forbid" # enforce all unsafe ops have a SAFETY comment
-undocumented_unsafe_blocks = "forbid" # enforce all unsafe ops have a SAFETY comment
+multiple_unsafe_ops_per_block = "forbid" # enforce all unsafe operations have a SAFETY comment
+undocumented_unsafe_blocks = "forbid" # enforce all unsafe operations have a SAFETY comment
 unnecessary_safety_comment = "warn" # unnecessary SAFETY comments would be confusing
 unnecessary_safety_doc = "warn" # unnecessary "# Safety" sections would be confusing
 allow_attributes = "warn" # prefer #[expect(..)]
