@@ -1,7 +1,11 @@
 name: CI
 
-# Run on any push or any PR (both for any branch)
-on: [push, pull_request]
+# Run CI on any PR (into any branch), or pushes to main
+on:
+  pull_request:
+  push:
+    branches:
+      - main
 
 env:
   CARGO_TERM_COLOR: always # Pretty colors
