@@ -176,12 +176,9 @@ def run_tests_leak_sanitizer() -> None:
 # TODO: remove if unsafe_code is forbidden
 def run_tests_miri() -> None:
     """Run tests with MIRI."""
-    # NOTE: some tests (containing `nomiri`) can't run under MIRI, and are
-    # skipped here.
-
     print_header("Running tests with MIRI...")
     run_command(
-        ["cargo", "+nightly", "miri", "test", "--", "--skip", "nomiri"],
+        ["cargo", "+nightly", "miri", "test"],
         env={
             "RUSTFLAGS": "-D warnings -C opt-level=0",
             "MIRIFLAGS": "-Zmiri-strict-provenance"
