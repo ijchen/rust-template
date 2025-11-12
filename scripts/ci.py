@@ -24,12 +24,11 @@ Exit Code:
     130 - Keyboard interrupt
 """
 
-import sys
-import subprocess
 import argparse
 import os
-from typing import Optional, Dict, List, Callable
-
+import subprocess
+import sys
+from typing import Callable, Dict, List, Optional
 
 # Minimum Supported Rust Version (MSRV)
 MSRV = "1.85.0"
@@ -42,6 +41,7 @@ class ExternalError(Exception):
     Examples: external command failure, invalid user input, etc.
     Maps to exit code 1.
     """
+
     pass
 
 
@@ -86,8 +86,7 @@ def check_fmt() -> None:
     """Check code formatting."""
     print_header("Checking code formatting...")
     run_command(
-        ["cargo", "+stable", "fmt", "--check"],
-        env={"RUSTFLAGS": "-D warnings"}
+        ["cargo", "+stable", "fmt", "--check"], env={"RUSTFLAGS": "-D warnings"}
     )
 
 
@@ -96,13 +95,13 @@ def check_docs() -> None:
     print_header("Building documentation (stable)...")
     run_command(
         ["cargo", "+stable", "doc", "--document-private-items", "--no-deps"],
-        env={"RUSTDOCFLAGS": "-D warnings"}
+        env={"RUSTDOCFLAGS": "-D warnings"},
     )
 
     print_header("Building documentation (nightly)...")
     run_command(
         ["cargo", "+nightly", "doc", "--document-private-items", "--no-deps"],
-        env={"RUSTDOCFLAGS": "-D warnings"}
+        env={"RUSTDOCFLAGS": "-D warnings"},
     )
 
 
@@ -110,7 +109,16 @@ def lint() -> None:
     """Lint with cargo clippy."""
     print_header("Linting with cargo clippy...")
     run_command(
-        ["cargo", "+stable", "clippy", "--no-deps", "--all-targets", "--", "-D", "warnings"]
+        [
+            "cargo",
+            "+stable",
+            "clippy",
+            "--no-deps",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings",
+        ]
     )
 
 
@@ -118,8 +126,7 @@ def build() -> None:
     """Run cargo build."""
     print_header("Running cargo build...")
     run_command(
-        ["cargo", "+stable", "build", "--all-targets"],
-        env={"RUSTFLAGS": "-D warnings"}
+        ["cargo", "+stable", "build", "--all-targets"], env={"RUSTFLAGS": "-D warnings"}
     )
 
 
@@ -136,28 +143,19 @@ def build() -> None:
 def run_tests_stable() -> None:
     """Run tests with stable compiler."""
     print_header("Running tests (stable compiler)...")
-    run_command(
-        ["cargo", "+stable", "test"],
-        env={"RUSTFLAGS": "-D warnings"}
-    )
+    run_command(["cargo", "+stable", "test"], env={"RUSTFLAGS": "-D warnings"})
 
 
 def run_tests_beta() -> None:
     """Run tests with beta compiler."""
     print_header("Running tests (beta compiler)...")
-    run_command(
-        ["cargo", "+beta", "test"],
-        env={"RUSTFLAGS": "-D warnings"}
-    )
+    run_command(["cargo", "+beta", "test"], env={"RUSTFLAGS": "-D warnings"})
 
 
 def run_tests_msrv() -> None:
     """Run tests with MSRV compiler."""
     print_header(f"Running tests (MSRV compiler ({MSRV}))...")
-    run_command(
-        ["cargo", f"+{MSRV}", "test"],
-        env={"RUSTFLAGS": "-D warnings"}
-    )
+    run_command(["cargo", f"+{MSRV}", "test"], env={"RUSTFLAGS": "-D warnings"})
 
 
 def run_tests_leak_sanitizer() -> None:
@@ -169,7 +167,7 @@ def run_tests_leak_sanitizer() -> None:
     print_header("Running tests with leak sanitizer...")
     run_command(
         ["cargo", "+nightly", "test", "--", "--skip", "loom"],
-        env={"RUSTFLAGS": "-D warnings -Z sanitizer=leak"}
+        env={"RUSTFLAGS": "-D warnings -Z sanitizer=leak"},
     )
 
 
@@ -181,8 +179,8 @@ def run_tests_miri() -> None:
         ["cargo", "+nightly", "miri", "test"],
         env={
             "RUSTFLAGS": "-D warnings -C opt-level=0",
-            "MIRIFLAGS": "-Zmiri-strict-provenance"
-        }
+            "MIRIFLAGS": "-Zmiri-strict-provenance",
+        },
     )
 
 
@@ -220,8 +218,8 @@ def parse_arguments() -> argparse.Namespace:
         ExternalError: If arguments are invalid (user error)
     """
     parser = argparse.ArgumentParser(
-        description='Runs all continuous integration (CI) checks for the codebase.',
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        description="Runs all continuous integration (CI) checks for the codebase.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
     parser.add_argument(
@@ -229,7 +227,7 @@ def parse_arguments() -> argparse.Namespace:
         nargs="?",
         default="all",
         choices=["all"] + [name for name, _ in CI_STAGES],
-        help="Which stage of CI to perform (default: all)"
+        help="Which stage of CI to perform (default: all)",
     )
 
     try:
@@ -246,8 +244,10 @@ def parse_arguments() -> argparse.Namespace:
 def validate_environment() -> None:
     """Ensure we're in a Rust project directory."""
     if not os.path.isfile("Cargo.toml"):
-        print("Error: Cargo.toml not found. Run this script from the project root.", 
-              file=sys.stderr)
+        print(
+            "Error: Cargo.toml not found. Run this script from the project root.",
+            file=sys.stderr,
+        )
         raise ExternalError
 
 
@@ -270,12 +270,13 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\nDetected keyboard interrupt, exiting", file=sys.stderr)
         sys.exit(130)
-    except ExternalError as e:
+    except ExternalError:
         # Exit code 1: Something outside the script's control failed
         sys.exit(1)
     except Exception:
         # Exit code 2: Internal script error (bug in this script)
         import traceback
+
         print("\nInternal script error:", file=sys.stderr)
         traceback.print_exc()
         sys.exit(2)

@@ -5,7 +5,7 @@
 // this "on release" comment removed (the above one should stay).
 //! [`ExampleItem`]: ExampleItem
 // TODO: update ExampleItem, or remove the item entirely if unused
-#![cfg_attr(any(doc, test), doc = include_str!("../README.md"))]
+#![doc = include_str!("../README.md")]
 
 /// An example item so that documentation checks pass.
 //
